@@ -16,7 +16,8 @@
 " *                                                                         \n"\
 " *=========================================================================\n"\
 "\n"
-#/*  (GPLv2 is included near the bottom of the source file) */
+
+#/*  (The GPLv2 license text is included near the bottom of the onehttpd segment, above the lua segment) */
 
 #define USAGE \
 "Usage: onehttpd [OPTIONS]... DOCROOT                                       \n"\
@@ -90,20 +91,20 @@ ONEHTTPD_VERSION_MINOR=7
 
 #/* For C */
 #define ONEHTTPD_VERSION_MAJOR 0
-#define ONEHTTPD_VERSION_MINOR 7
-#define ONEHTTPD_VERSION_STRING "0.7"
+#define ONEHTTPD_VERSION_MINOR 8
+#define ONEHTTPD_VERSION_STRING "0.8"
 #define ONEHTTPD_VERSION_STRING_FULL "onehttpd/" ONEHTTPD_VERSION_STRING
 
 # /* This is the Makefile part
 
-all: onehttpd onehttpd.exe
+all: onehttpd
 
 # just need to consider distributing the win32 exe.
 dist: onehttpd.exe
 	mkdir -p dist/ && cp onehttpd.exe dist/onehttpd-${ONEHTTPD_VERSION_MAJOR}.${ONEHTTPD_VERSION_MINOR}.exe && i586-mingw32msvc-strip dist/onehttpd-${ONEHTTPD_VERSION_MAJOR}.${ONEHTTPD_VERSION_MINOR}.exe; chmod 644 dist/onehttpd-${ONEHTTPD_VERSION_MAJOR}.${ONEHTTPD_VERSION_MINOR}.exe; cp onehttpd.c dist/onehttpd-${ONEHTTPD_VERSION_MAJOR}.${ONEHTTPD_VERSION_MINOR}.c; echo 'REMEMBER TO BUMP VERSION';
 
 onehttpd: onehttpd.c
-	gcc -Wall -g -fno-strict-aliasing onehttpd.c -o onehttpd
+	gcc -Wall -g -fno-strict-aliasing onehttpd.c -DLUA_USE_POSIX -o onehttpd -lm
 
 onehttpd.exe: onehttpd.c onehttpd.res
 	i586-mingw32msvc-gcc -Os -Wall -fno-strict-aliasing onehttpd.c onehttpd.res -lwsock32 -o onehttpd.exe
@@ -1808,7 +1809,7 @@ enum result_t request_list_directory( struct Request *req, const char *path )
 	if ( io_errno == SUCCESS ) ret = SUCCESS;
 	else ret = FAIL_SYS;
 
-	lb_enqueue_str( req->o_queue, "</ul><p><i>Server: " ONEHTTPD_VERSION_STRING_FULL "</i></p></body></html>\n" );
+	lb_enqueue_str( req->o_queue, "</ul><p><i>Server: " ONEHTTPD_VERSION_STRING_FULL "</i></p><script type='text/javascript'><!--\nfunction cmp(a,b) { if (a > b) return 1; if (a === b) return 0; return -1; } window.onload = function() { var t = document.getElementsByTagName('UL')[0]; var x = t.childNodes; var l = []; for (var i = 0; i < x.length; i++) { if (x[i].tagName && x[i].tagName.toUpperCase() === 'LI') l.push(x[i]); } l.sort(function (a, b) { return cmp(a.firstChild.firstChild.nodeValue, b.firstChild.firstChild.nodeValue); }); for (var i = 0; i < l.length; i++) { t.removeChild(l[i]); t.appendChild(l[i]); } };\n--></script></body></html>\n" );
 
 	io_close_dir( dir );
 
@@ -3285,6 +3286,14 @@ library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.
 
 ****************************************************************************/
+
+
+/******************** BEGIN_LUA ********************/
+/**************** LOOK FOR: END_LUA ****************/
+#include "lua.c"
+/******************** END_LUA ********************/
+
+
 #else /* IS_RESOURCE_FILE */
 
 #include <windows.h>
