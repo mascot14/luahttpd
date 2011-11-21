@@ -1,0 +1,2 @@
+GET /nonexistentfile HTTP/1.0
+

@@ -1,0 +1,2 @@
+(onehttpd.c:2752):INFO	- onehttpd v0.5
+(onehttpd.c:2755):INFO	- options: PORT=1351, DOCROOT='./docroot/'

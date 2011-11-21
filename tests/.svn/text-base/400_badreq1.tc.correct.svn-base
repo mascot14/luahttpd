@@ -1,0 +1,7 @@
+HTTP/1.0 400 Bad Request
+Content-Type: text/html
+Connection: close
+Date: [rfc822 date]
+Server: onehttpd/0.5
+
+<html><head><title>400 - Bad Request</title></head><body><h1>400 - Bad Request</h1></body></html>

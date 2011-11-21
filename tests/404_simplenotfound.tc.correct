@@ -1,0 +1,7 @@
+HTTP/1.0 404 Not Found
+Content-Type: text/html
+Connection: close
+Date: [rfc822 date]
+Server: onehttpd/0.5
+
+<html><head><title>404 - Not Found</title></head><body><h1>404 - Not Found</h1></body></html>

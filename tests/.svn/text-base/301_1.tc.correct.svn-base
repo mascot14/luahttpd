@@ -1,0 +1,7 @@
+HTTP/1.0 301 Moved Permanently
+Content-Length: 0
+Location: /dir1/
+Connection: close
+Date: [rfc822 date]
+Server: onehttpd/0.5
+
